@@ -17,7 +17,7 @@ import {
 
 // Neo-brutalism landing page (single-file). Tailwind is available in preview.
 
-const RESUME_URL = "/public/cv-nicolas.pdf";
+const RESUME_URL = "/cv-nicolas.pdf";
 
 const Pill = ({ children }) => (
   <span className="inline-flex items-center gap-1 rounded-full border-2 border-black bg-white px-3 py-1 text-sm font-semibold shadow-[3px_3px_0_0_#000]">
@@ -396,3 +396,4 @@ function SkillGroup({ title, items }) {
     </div>
   );
 }
+
