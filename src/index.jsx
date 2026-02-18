@@ -182,7 +182,6 @@ export default function NeoBrutalLanding() {
             <IconLink href={data.links.linkedin} icon={Linkedin} label="LinkedIn" />
             <IconLink href={data.links.github} icon={Github} label="GitHub" />
             <IconLink href={`mailto:${data.email}`} icon={Mail} label={data.email} />
-            <IconLink href={`tel:${data.phone}`} icon={Phone} label={data.phone} />
           </div>
         </motion.header>
 
@@ -396,4 +395,5 @@ function SkillGroup({ title, items }) {
     </div>
   );
 }
+
 
