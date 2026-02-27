@@ -84,8 +84,96 @@ function LanguageToggle({ lang, setLang }) {
     </div>
   );
 }
+function LanguageToggle({ lang, setLang }) {
+  return (
+    <div className="inline-flex items-center rounded-2xl border-2 border-black bg-white p-1 shadow-[6px_6px_0_0_#000]">
+      <button
+        type="button"
+        onClick={() => setLang("pt")}
+        className={`rounded-xl px-3 py-2 text-sm font-black transition-transform active:translate-x-[1px] active:translate-y-[1px] ${
+          lang === "pt" ? "bg-cyan-300" : "bg-white"
+        }`}
+      >
+        PT
+      </button>
+      <button
+        type="button"
+        onClick={() => setLang("en")}
+        className={`rounded-xl px-3 py-2 text-sm font-black transition-transform active:translate-x-[1px] active:translate-y-[1px] ${
+          lang === "en" ? "bg-cyan-300" : "bg-white"
+        }`}
+      >
+        EN
+      </button>
+    </div>
+  );
+}
 
 export default function NeoBrutalLanding() {
+  const [lang, setLang] = useState("pt");
+
+  // Persist language
+  useEffect(() => {
+    const saved = localStorage.getItem("lang");
+    if (saved === "pt" || saved === "en") setLang(saved);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("lang", lang);
+  }, [lang]);
+
+  const t = useMemo(
+    () => ({
+      pt: {
+        badge: "Neo-brutal portfolio",
+        rolePill: "Front-end / Fullstack",
+        download: "Baixar currículo",
+        about: "Sobre",
+        experience: "Experiência",
+        experienceSubtitle: "O que eu já fiz no mundo real.",
+        projects: "Projetos",
+        skills: "Skills",
+        contact: "Contate-me",
+        viewLinkedIn: "Ver LinkedIn",
+        viewGithub: "Ver GitHub",
+        sendEmail: "Mandar e-mail",
+        footer: "Feito com React + Tailwind — estilo Neo-Brutalism.",
+        skillGroups: {
+          frontend: "Front-end",
+          backend: "Back-end",
+          mobile: "Mobile",
+          ecommerce: "E-commerce",
+          testing: "Testes",
+          tools: "Ferramentas",
+        },
+      },
+      en: {
+        badge: "Neo-brutal portfolio",
+        rolePill: "Front-end / Fullstack",
+        download: "Download resume",
+        about: "About",
+        experience: "Experience",
+        experienceSubtitle: "What I’ve built in the real world.",
+        projects: "Projects",
+        skills: "Skills",
+        contact: "Contact",
+        viewLinkedIn: "View LinkedIn",
+        viewGithub: "View GitHub",
+        sendEmail: "Send email",
+        footer: "Built with React + Tailwind — Neo-Brutalism style.",
+        skillGroups: {
+          frontend: "Front-end",
+          backend: "Back-end",
+          mobile: "Mobile",
+          ecommerce: "E-commerce",
+          testing: "Testing",
+          tools: "Tools",
+        },
+      },
+    }),
+    []
+  );
+
   const [lang, setLang] = useState("pt");
 
   // Persist language
@@ -164,6 +252,10 @@ export default function NeoBrutalLanding() {
         pt: "Desenvolvedor de software com experiência em e-commerces, aplicações web e mobile. Atuo com React/Next no Front-end e também com Flutter/Dart no desenvolvimento mobile (Android, iOS e Web). Trabalho com integração de APIs, testes automatizados e foco em performance e arquitetura limpa.",
         en: "Software developer experienced in e-commerce, web and mobile apps. I work with React/Next on the front-end and Flutter/Dart for mobile development (Android, iOS and Web). I focus on API integrations, automated tests, performance and clean architecture.",
       },
+      summary: {
+        pt: "Desenvolvedor de software com experiência em e-commerces, aplicações web e mobile. Atuo com React/Next no Front-end e também com Flutter/Dart no desenvolvimento mobile (Android, iOS e Web). Trabalho com integração de APIs, testes automatizados e foco em performance e arquitetura limpa.",
+        en: "Software developer experienced in e-commerce, web and mobile apps. I work with React/Next on the front-end and Flutter/Dart for mobile development (Android, iOS and Web). I focus on API integrations, automated tests, performance and clean architecture.",
+      },
       highlights: [
         "React • Next.js • TypeScript",
         "Node.js • Express.js",
@@ -176,7 +268,25 @@ export default function NeoBrutalLanding() {
       experience: [
         {
           title: { pt: "Estagiário em Desenvolvimento Web", en: "Web Development Intern" },
+          title: { pt: "Estagiário em Desenvolvimento Web", en: "Web Development Intern" },
           company: "Quality Digital",
+          period: { pt: "08/2025 – Atual", en: "Aug/2025 – Present" },
+          bullets: {
+            pt: [
+              "Desenvolvimento e manutenção de e-commerces com React, Next.js, Node.js, VTEX, TypeScript e JavaScript.",
+              "Atuação em projeto internacional (ODP Business), maior case da VTEX.",
+              "Integração com APIs REST, correções e melhorias de UX/performance.",
+              "Testes unitários com Jest.",
+              "Rotina ágil (Scrum/Kanban) com Jira e colaboração em time.",
+            ],
+            en: [
+              "Developing and maintaining e-commerce projects with React, Next.js, Node.js, VTEX, TypeScript and JavaScript.",
+              "Working on an international project (ODP Business), one of VTEX’s biggest cases.",
+              "REST API integrations, bug fixes, and UX/performance improvements.",
+              "Unit testing with Jest.",
+              "Agile routine (Scrum/Kanban) using Jira and teamwork collaboration.",
+            ],
+          },
           period: { pt: "08/2025 – Atual", en: "Aug/2025 – Present" },
           bullets: {
             pt: [
@@ -197,7 +307,21 @@ export default function NeoBrutalLanding() {
         },
         {
           title: { pt: "Estagiário em Desenvolvimento Mobile", en: "Mobile Development Intern" },
+          title: { pt: "Estagiário em Desenvolvimento Mobile", en: "Mobile Development Intern" },
           company: "Fitmass S.A.",
+          period: { pt: "07/2024 – 07/2025", en: "Jul/2024 – Jul/2025" },
+          bullets: {
+            pt: [
+              "Desenvolvimento de apps com Flutter/Dart (Android, iOS e Web).",
+              "Integração com APIs REST, GraphQL e Firebase; foco em qualidade e testes automatizados.",
+              "Aplicação de boas práticas (Clean Code, OOP) e refatorações.",
+            ],
+            en: [
+              "Built apps with Flutter/Dart (Android, iOS and Web).",
+              "Integrated REST APIs, GraphQL and Firebase; focusing on quality and automated testing.",
+              "Applied best practices (Clean Code, OOP) and refactoring.",
+            ],
+          },
           period: { pt: "07/2024 – 07/2025", en: "Jul/2024 – Jul/2025" },
           bullets: {
             pt: [
@@ -216,6 +340,10 @@ export default function NeoBrutalLanding() {
       projects: [
         {
           name: "TaskiToDo",
+          tagline: {
+            pt: "App offline de tarefas (Flutter) com CRUD e busca.",
+            en: "Offline task manager (Flutter) with CRUD and search.",
+          },
           tagline: {
             pt: "App offline de tarefas (Flutter) com CRUD e busca.",
             en: "Offline task manager (Flutter) with CRUD and search.",
@@ -259,17 +387,21 @@ export default function NeoBrutalLanding() {
               <div className="mb-3 inline-flex items-center gap-2 rounded-2xl border-2 border-black bg-yellow-200 px-3 py-2 font-bold shadow-[6px_6px_0_0_#000]">
                 <Sparkles className="h-4 w-4" />
                 {t[lang].badge}
+                {t[lang].badge}
               </div>
+
 
               <h1 className="text-3xl font-black tracking-tight md:text-5xl">
                 {data.name}
               </h1>
+
 
               <div className="mt-2 flex flex-wrap items-center gap-2">
                 <Pill>
                   <MapPin className="h-4 w-4" /> {data.location}
                 </Pill>
                 <Pill>
+                  <Code2 className="h-4 w-4" /> {t[lang].rolePill}
                   <Code2 className="h-4 w-4" /> {t[lang].rolePill}
                 </Pill>
               </div>
@@ -278,10 +410,13 @@ export default function NeoBrutalLanding() {
             <div className="flex flex-wrap items-center gap-2">
               <LanguageToggle lang={lang} setLang={setLang} />
 
+              <LanguageToggle lang={lang} setLang={setLang} />
+
               <a
                 href={RESUME_URL}
                 className="inline-flex items-center gap-2 rounded-2xl border-2 border-black bg-lime-300 px-4 py-3 font-black shadow-[6px_6px_0_0_#000] transition-transform active:translate-x-[2px] active:translate-y-[2px]"
               >
+                <Download className="h-5 w-5" /> {t[lang].download}
                 <Download className="h-5 w-5" /> {t[lang].download}
               </a>
             </div>
@@ -305,7 +440,9 @@ export default function NeoBrutalLanding() {
             >
               <Card className="p-6">
                 <SectionTitle icon={CheckCircle2} title={t[lang].about} />
+                <SectionTitle icon={CheckCircle2} title={t[lang].about} />
                 <p className="text-base font-medium leading-relaxed text-black/90">
+                  {data.summary[lang]}
                   {data.summary[lang]}
                 </p>
 
@@ -333,25 +470,33 @@ export default function NeoBrutalLanding() {
                   icon={Server}
                   title={t[lang].experience}
                   subtitle={t[lang].experienceSubtitle}
+                  title={t[lang].experience}
+                  subtitle={t[lang].experienceSubtitle}
                 />
+
 
                 <div className="space-y-5">
                   {data.experience.map((xp) => (
                     <div
+                      key={`${xp.company}-${xp.title.pt}`}
                       key={`${xp.company}-${xp.title.pt}`}
                       className="rounded-2xl border-2 border-black bg-[#fff7e6] p-4 shadow-[4px_4px_0_0_#000]"
                     >
                       <div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
                         <div>
                           <div className="text-lg font-black">{xp.title[lang]}</div>
+                          <div className="text-lg font-black">{xp.title[lang]}</div>
                           <div className="text-sm font-bold text-black/80">
                             {xp.company}
                           </div>
                         </div>
                         <div className="text-sm font-extrabold">{xp.period[lang]}</div>
+                        <div className="text-sm font-extrabold">{xp.period[lang]}</div>
                       </div>
 
+
                       <ul className="mt-3 list-disc space-y-2 pl-5 text-sm font-semibold">
+                        {xp.bullets[lang].map((b) => (
                         {xp.bullets[lang].map((b) => (
                           <li key={b}>{b}</li>
                         ))}
@@ -370,6 +515,7 @@ export default function NeoBrutalLanding() {
             >
               <Card className="p-6">
                 <SectionTitle icon={Smartphone} title={t[lang].projects} />
+                <SectionTitle icon={Smartphone} title={t[lang].projects} />
 
                 <div className="grid gap-4 md:grid-cols-2">
                   {data.projects.map((p) => (
@@ -385,10 +531,12 @@ export default function NeoBrutalLanding() {
                           <div className="text-lg font-black">{p.name}</div>
                           <div className="mt-1 text-sm font-semibold text-black/80">
                             {p.tagline[lang]}
+                            {p.tagline[lang]}
                           </div>
                         </div>
                         <ArrowUpRight className="h-5 w-5 opacity-70 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                       </div>
+
 
                       <div className="mt-3 flex flex-wrap gap-2">
                         {p.stack.map((s) => (
@@ -416,8 +564,15 @@ export default function NeoBrutalLanding() {
             >
               <Card className="p-6">
                 <SectionTitle icon={Code2} title={t[lang].skills} />
+                <SectionTitle icon={Code2} title={t[lang].skills} />
 
                 <div className="space-y-4">
+                  <SkillGroup title={t[lang].skillGroups.frontend} items={data.skills.frontend} />
+                  <SkillGroup title={t[lang].skillGroups.backend} items={data.skills.backend} />
+                  <SkillGroup title={t[lang].skillGroups.mobile} items={data.skills.mobile} />
+                  <SkillGroup title={t[lang].skillGroups.ecommerce} items={data.skills.ecommerce} />
+                  <SkillGroup title={t[lang].skillGroups.testing} items={data.skills.testing} />
+                  <SkillGroup title={t[lang].skillGroups.tools} items={data.skills.tools} />
                   <SkillGroup title={t[lang].skillGroups.frontend} items={data.skills.frontend} />
                   <SkillGroup title={t[lang].skillGroups.backend} items={data.skills.backend} />
                   <SkillGroup title={t[lang].skillGroups.mobile} items={data.skills.mobile} />
@@ -436,6 +591,7 @@ export default function NeoBrutalLanding() {
             >
               <Card className="p-6">
                 <SectionTitle icon={Sparkles} title={t[lang].contact} />
+                <SectionTitle icon={Sparkles} title={t[lang].contact} />
 
                 <div className="grid gap-3">
                   <a
@@ -445,7 +601,9 @@ export default function NeoBrutalLanding() {
                     className="rounded-2xl border-2 border-black bg-yellow-300 px-4 py-3 text-center font-black shadow-[6px_6px_0_0_#000] transition-transform active:translate-x-[2px] active:translate-y-[2px]"
                   >
                     {t[lang].viewLinkedIn}
+                    {t[lang].viewLinkedIn}
                   </a>
+
 
                   <a
                     href={data.links.github}
@@ -454,19 +612,25 @@ export default function NeoBrutalLanding() {
                     className="rounded-2xl border-2 border-black bg-cyan-300 px-4 py-3 text-center font-black shadow-[6px_6px_0_0_#000] transition-transform active:translate-x-[2px] active:translate-y-[2px]"
                   >
                     {t[lang].viewGithub}
+                    {t[lang].viewGithub}
                   </a>
+
 
                   <a
                     href={`mailto:${data.email}`}
                     className="rounded-2xl border-2 border-black bg-lime-300 px-4 py-3 text-center font-black shadow-[6px_6px_0_0_#000] transition-transform active:translate-x-[2px] active:translate-y-[2px]"
                   >
                     {t[lang].sendEmail}
+                    {t[lang].sendEmail}
                   </a>
                 </div>
               </Card>
             </motion.div>
+              </Card>
+            </motion.div>
 
             <footer className="mt-6 text-center text-xs font-bold text-black/70">
+              {t[lang].footer}
               {t[lang].footer}
             </footer>
           </div>
