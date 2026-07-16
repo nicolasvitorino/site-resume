@@ -12,34 +12,36 @@ import {
   Smartphone,
   Server,
   CheckCircle2,
+  Moon,
+  Sun,
 } from "lucide-react";
 
 const RESUME_URL_PT = "/cv-nicolas.pdf";
 const RESUME_URL_EN = "/cv-nicolas-en.pdf";
 
-const Pill = ({ children }) => (
-  <span className="inline-flex items-center gap-1 rounded-full border-2 border-black bg-white px-3 py-1 text-sm font-semibold shadow-[3px_3px_0_0_#000]">
+const Pill = ({ children, dark = false }) => (
+  <span className={`inline-flex items-center gap-1 rounded-full border-2 ${dark ? "border-zinc-600 bg-zinc-900 text-zinc-200 shadow-[3px_3px_0_0_#3f3f46]" : "border-black bg-white text-black shadow-[3px_3px_0_0_#000]"} px-3 py-1 text-sm font-semibold`}>
     {children}
   </span>
 );
 
-const Card = ({ className = "", children }) => (
+const Card = ({ className = "", children, dark = false }) => (
   <div
-    className={`rounded-2xl border-2 border-black bg-white shadow-[6px_6px_0_0_#000] ${className}`}
+    className={`rounded-2xl border-2 ${dark ? "border-zinc-600 bg-zinc-900 shadow-[6px_6px_0_0_#3f3f46]" : "border-black bg-white shadow-[6px_6px_0_0_#000]"} ${className}`}
   >
     {children}
   </div>
 );
 
-const SectionTitle = ({ icon: Icon, title, subtitle }) => (
+const SectionTitle = ({ icon: Icon, title, subtitle, dark = false }) => (
   <div className="mb-4 flex items-start gap-3">
-    <div className="mt-1 rounded-xl border-2 border-black bg-yellow-300 p-2 shadow-[3px_3px_0_0_#000]">
-      <Icon className="h-5 w-5" />
+    <div className={`mt-1 rounded-xl border-2 p-2 ${dark ? "border-yellow-800 bg-yellow-600 shadow-[3px_3px_0_0_#854d0e]" : "border-black bg-yellow-300 shadow-[3px_3px_0_0_#000]"}`}>
+      <Icon className="h-5 w-5 text-black" />
     </div>
     <div>
-      <h2 className="text-xl font-black tracking-tight md:text-2xl">{title}</h2>
+      <h2 className={`text-xl font-black tracking-tight md:text-2xl ${dark ? "text-zinc-200" : "text-black"}`}>{title}</h2>
       {subtitle ? (
-        <p className="mt-1 text-sm font-medium text-black/80 md:text-base">
+        <p className={`mt-1 text-sm font-medium md:text-base ${dark ? "text-zinc-400" : "text-black/80"}`}>
           {subtitle}
         </p>
       ) : null}
@@ -47,12 +49,12 @@ const SectionTitle = ({ icon: Icon, title, subtitle }) => (
   </div>
 );
 
-const IconLink = ({ href, icon: Icon, label }) => (
+const IconLink = ({ href, icon: Icon, label, dark = false }) => (
   <a
     href={href}
     target="_blank"
     rel="noreferrer"
-    className="group inline-flex items-center gap-2 rounded-xl border-2 border-black bg-white px-3 py-2 text-sm font-semibold shadow-[3px_3px_0_0_#000] transition-transform active:translate-x-[1px] active:translate-y-[1px]"
+    className={`group inline-flex items-center gap-2 rounded-xl border-2 px-3 py-2 text-sm font-semibold transition-transform active:translate-x-[1px] active:translate-y-[1px] ${dark ? "border-zinc-600 bg-zinc-900 text-zinc-200 shadow-[3px_3px_0_0_#3f3f46]" : "border-black bg-white text-black shadow-[3px_3px_0_0_#000]"}`}
   >
     <Icon className="h-4 w-4" />
     <span>{label}</span>
@@ -60,14 +62,14 @@ const IconLink = ({ href, icon: Icon, label }) => (
   </a>
 );
 
-function LanguageToggle({ lang, setLang }) {
+function LanguageToggle({ lang, setLang, dark = false }) {
   return (
-    <div className="inline-flex items-center rounded-2xl border-2 border-black bg-white p-1 shadow-[6px_6px_0_0_#000]">
+    <div className={`inline-flex items-center rounded-2xl border-2 p-1 ${dark ? "border-zinc-600 bg-zinc-900 shadow-[6px_6px_0_0_#3f3f46]" : "border-black bg-white shadow-[6px_6px_0_0_#000]"}`}>
       <button
         type="button"
         onClick={() => setLang("pt")}
         className={`rounded-xl px-3 py-2 text-sm font-black transition-transform active:translate-x-[1px] active:translate-y-[1px] ${
-          lang === "pt" ? "bg-cyan-300" : "bg-white"
+          lang === "pt" ? dark ? "bg-cyan-600 text-zinc-200" : "bg-cyan-400 text-black" : dark ? "bg-zinc-900 text-zinc-400" : "bg-white text-black"
         }`}
       >
         PT
@@ -76,7 +78,7 @@ function LanguageToggle({ lang, setLang }) {
         type="button"
         onClick={() => setLang("en")}
         className={`rounded-xl px-3 py-2 text-sm font-black transition-transform active:translate-x-[1px] active:translate-y-[1px] ${
-          lang === "en" ? "bg-cyan-300" : "bg-white"
+          lang === "en" ? dark ? "bg-cyan-600 text-zinc-200" : "bg-cyan-400 text-black" : dark ? "bg-zinc-900 text-zinc-400" : "bg-white text-black"
         }`}
       >
         EN
@@ -85,17 +87,33 @@ function LanguageToggle({ lang, setLang }) {
   );
 }
 
-function SkillGroup({ title, items }) {
+function ThemeToggle({ theme, setTheme, dark = false }) {
+  return (
+    <button
+      type="button"
+      onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+      className={`inline-flex items-center gap-2 rounded-2xl border-2 px-4 py-3 font-black transition-transform active:translate-x-[2px] active:translate-y-[2px] ${
+        theme === "dark"
+          ? "border-orange-800 bg-orange-600 text-zinc-200 shadow-[6px_6px_0_0_#9a3412]"
+          : "border-black bg-yellow-200 text-black shadow-[6px_6px_0_0_#000]"
+      }`}
+    >
+      {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+    </button>
+  );
+}
+
+function SkillGroup({ title, items, dark = false }) {
   return (
     <div>
-      <div className="mb-2 inline-flex items-center gap-2 rounded-xl border-2 border-black bg-orange-200 px-3 py-1.5 text-sm font-black shadow-[3px_3px_0_0_#000]">
+      <div className={`mb-2 inline-flex items-center gap-2 rounded-xl border-2 px-3 py-1.5 text-sm font-black ${dark ? "border-orange-800 bg-orange-600 text-zinc-200 shadow-[3px_3px_0_0_#9a3412]" : "border-black bg-orange-200 text-black shadow-[3px_3px_0_0_#000]"}`}>
         {title}
       </div>
       <div className="flex flex-wrap gap-2">
         {items.map((it) => (
           <span
             key={it}
-            className="rounded-xl border-2 border-black bg-white px-2.5 py-1 text-xs font-extrabold shadow-[2px_2px_0_0_#000]"
+            className={`rounded-xl border-2 px-2.5 py-1 text-xs font-extrabold ${dark ? "border-zinc-600 bg-zinc-800 text-zinc-200 shadow-[2px_2px_0_0_#3f3f46]" : "border-black bg-white text-black shadow-[2px_2px_0_0_#000]"}`}
           >
             {it}
           </span>
@@ -107,7 +125,9 @@ function SkillGroup({ title, items }) {
 
 export default function NeoBrutalLanding() {
   const [lang, setLang] = useState("pt");
+  const [theme, setTheme] = useState("light");
   const resumeUrl = lang === "en" ? RESUME_URL_EN : RESUME_URL_PT;
+  const isDark = theme === "dark";
 
   useEffect(() => {
     const saved = localStorage.getItem("lang");
@@ -118,11 +138,20 @@ export default function NeoBrutalLanding() {
     localStorage.setItem("lang", lang);
   }, [lang]);
 
+  useEffect(() => {
+    const saved = localStorage.getItem("theme");
+    if (saved === "light" || saved === "dark") setTheme(saved);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
   const t = useMemo(
     () => ({
       pt: {
         badge: "Neo-brutal portfolio",
-        rolePill: "Backend / Automação / Fullstack",
+        rolePill: "Backend / Automação de processos (RPA) / Fullstack",
         download: "Baixar currículo",
         about: "Sobre",
         experience: "Experiência",
@@ -145,7 +174,7 @@ export default function NeoBrutalLanding() {
       },
       en: {
         badge: "Neo-brutal portfolio",
-        rolePill: "Backend / Automation / Fullstack",
+        rolePill: "Backend / RPA / Fullstack",
         download: "Download resume",
         about: "About",
         experience: "Experience",
@@ -275,24 +304,6 @@ export default function NeoBrutalLanding() {
       ],
       projects: [
         {
-          name: "Task Manager (Offline-First)",
-          tagline: {
-            pt: "Gerenciador de tarefas offline com UI/UX fluída e persistência local.",
-            en: "Offline task manager with smooth UI/UX and local persistence.",
-          },
-          stack: ["Flutter", "Dart", "Hive"],
-          url: "https://github.com/nicolasvitorino/taski-todo",
-        },
-        {
-          name: "Dicionário de Inglês",
-          tagline: {
-            pt: "Consulta de palavras em inglês com significados, pronúncia e histórico de pesquisa.",
-            en: "English dictionary with meanings, pronunciation playback, and search history.",
-          },
-          stack: ["Flutter", "Dart", "sqflite", "SQLite"],
-          url: "https://github.com/nicolasvitorino/english-words-app",
-        },
-        {
           name: "API da Champions League",
           tagline: {
             pt: "API para criar, visualizar, atualizar e deletar jogadores em base de dados JSON.",
@@ -307,15 +318,6 @@ export default function NeoBrutalLanding() {
             "JavaScript",
           ],
           url: "https://github.com/nicolasvitorino/api-champions",
-        },
-        {
-          name: "Landing Page PSN",
-          tagline: {
-            pt: "Landing page responsiva com consumo de API REST.",
-            en: "Responsive landing page consuming a REST API.",
-          },
-          stack: ["Angular", "TypeScript", "JavaScript"],
-          url: "https://github.com/nicolasvitorino/angular-psn-store",
         },
         {
           name: "API da Fórmula 1",
@@ -334,6 +336,33 @@ export default function NeoBrutalLanding() {
           },
           stack: ["Java", "Spring Boot", "Hibernate", "JSON"],
           url: "https://github.com/nicolasvitorino/api-todolist-springboot",
+        },
+        {
+          name: "Landing Page PSN",
+          tagline: {
+            pt: "Landing page responsiva com consumo de API REST.",
+            en: "Responsive landing page consuming a REST API.",
+          },
+          stack: ["Angular", "TypeScript", "JavaScript"],
+          url: "https://github.com/nicolasvitorino/angular-psn-store",
+        },
+        {
+          name: "Task Manager (Offline-First)",
+          tagline: {
+            pt: "Gerenciador de tarefas offline com UI/UX fluída e persistência local.",
+            en: "Offline task manager with smooth UI/UX and local persistence.",
+          },
+          stack: ["Flutter", "Dart", "Hive"],
+          url: "https://github.com/nicolasvitorino/taski-todo",
+        },
+        {
+          name: "Dicionário de Inglês",
+          tagline: {
+            pt: "Consulta de palavras em inglês com significados, pronúncia e histórico de pesquisa.",
+            en: "English dictionary with meanings, pronunciation playback, and search history.",
+          },
+          stack: ["Flutter", "Dart", "sqflite", "SQLite"],
+          url: "https://github.com/nicolasvitorino/english-words-app",
         },
       ],
       skills: {
@@ -356,12 +385,12 @@ export default function NeoBrutalLanding() {
   );
 
   return (
-    <div className="min-h-screen bg-[#f7f7ff] text-black">
-      <div className="pointer-events-none fixed inset-0 -z-10 opacity-60">
-        <div className="absolute left-6 top-10 h-28 w-28 rotate-12 rounded-3xl border-2 border-black bg-pink-300 shadow-[6px_6px_0_0_#000]" />
-        <div className="absolute right-8 top-24 h-16 w-40 -rotate-6 rounded-2xl border-2 border-black bg-cyan-300 shadow-[6px_6px_0_0_#000]" />
-        <div className="absolute bottom-10 left-10 h-20 w-20 rotate-6 rounded-2xl border-2 border-black bg-lime-300 shadow-[6px_6px_0_0_#000]" />
-        <div className="absolute bottom-16 right-10 h-28 w-28 -rotate-12 rounded-3xl border-2 border-black bg-orange-300 shadow-[6px_6px_0_0_#000]" />
+    <div className={`min-h-screen transition-colors duration-300 ${isDark ? "bg-zinc-950 text-zinc-200" : "bg-[#f7f7ff] text-black"}`}>
+      <div className={`pointer-events-none fixed inset-0 -z-10 ${isDark ? "opacity-30" : "opacity-40"}`}>
+        <div className={`absolute left-6 top-10 h-28 w-28 rotate-12 rounded-3xl border-2 ${isDark ? "border-pink-800 bg-pink-700 shadow-[6px_6px_0_0_#831843]" : "border-black bg-pink-300 shadow-[6px_6px_0_0_#000]"}`} />
+        <div className={`absolute right-8 top-24 h-16 w-40 -rotate-6 rounded-2xl border-2 ${isDark ? "border-cyan-800 bg-cyan-700 shadow-[6px_6px_0_0_#164e63]" : "border-black bg-cyan-300 shadow-[6px_6px_0_0_#000]"}`} />
+        <div className={`absolute bottom-10 left-10 h-20 w-20 rotate-6 rounded-2xl border-2 ${isDark ? "border-lime-800 bg-lime-700 shadow-[6px_6px_0_0_#3f6212]" : "border-black bg-lime-300 shadow-[6px_6px_0_0_#000]"}`} />
+        <div className={`absolute bottom-16 right-10 h-28 w-28 -rotate-12 rounded-3xl border-2 ${isDark ? "border-orange-800 bg-orange-700 shadow-[6px_6px_0_0_#7c2d12]" : "border-black bg-orange-300 shadow-[6px_6px_0_0_#000]"}`} />
       </div>
 
       <div className="mx-auto max-w-6xl px-4 py-10 md:px-6 md:py-14">
@@ -373,7 +402,7 @@ export default function NeoBrutalLanding() {
         >
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-              <div className="mb-3 inline-flex items-center gap-2 rounded-2xl border-2 border-black bg-yellow-200 px-3 py-2 font-bold shadow-[6px_6px_0_0_#000]">
+              <div className={`mb-3 inline-flex items-center gap-2 rounded-2xl border-2 px-3 py-2 font-bold ${isDark ? "border-yellow-800 bg-yellow-600 text-black shadow-[6px_6px_0_0_#854d0e]" : "border-black bg-yellow-200 shadow-[6px_6px_0_0_#000]"}`}>
                 <Sparkles className="h-4 w-4" />
                 {t[lang].badge}
               </div>
@@ -383,20 +412,21 @@ export default function NeoBrutalLanding() {
               </h1>
 
               <div className="mt-2 flex flex-wrap items-center gap-2">
-                <Pill>
+                <Pill dark={isDark}>
                   <MapPin className="h-4 w-4" /> {data.location}
                 </Pill>
-                <Pill>
+                <Pill dark={isDark}>
                   <Code2 className="h-4 w-4" /> {t[lang].rolePill}
                 </Pill>
               </div>
             </div>
 
             <div className="flex flex-wrap items-center gap-2">
-              <LanguageToggle lang={lang} setLang={setLang} />
+              <LanguageToggle lang={lang} setLang={setLang} dark={isDark} />
+              <ThemeToggle theme={theme} setTheme={setTheme} dark={isDark} />
               <a
                 href={resumeUrl}
-                className="inline-flex items-center gap-2 rounded-2xl border-2 border-black bg-lime-300 px-4 py-3 font-black shadow-[6px_6px_0_0_#000] transition-transform active:translate-x-[2px] active:translate-y-[2px]"
+                className={`inline-flex items-center gap-2 rounded-2xl border-2 px-4 py-3 font-black transition-transform active:translate-x-[2px] active:translate-y-[2px] ${isDark ? "border-lime-800 bg-lime-600 text-black shadow-[6px_6px_0_0_#3f6212]" : "border-black bg-lime-300 text-black shadow-[6px_6px_0_0_#000]"}`}
               >
                 <Download className="h-5 w-5" /> {t[lang].download}
               </a>
@@ -408,12 +438,14 @@ export default function NeoBrutalLanding() {
               href={data.links.linkedin}
               icon={Linkedin}
               label="LinkedIn"
+              dark={isDark}
             />
-            <IconLink href={data.links.github} icon={Github} label="GitHub" />
+            <IconLink href={data.links.github} icon={Github} label="GitHub" dark={isDark} />
             <IconLink
               href={`mailto:${data.email}`}
               icon={Mail}
               label={data.email}
+              dark={isDark}
             />
           </div>
         </motion.header>
@@ -425,9 +457,9 @@ export default function NeoBrutalLanding() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.05 }}
             >
-              <Card className="p-6">
-                <SectionTitle icon={CheckCircle2} title={t[lang].about} />
-                <p className="text-base font-medium leading-relaxed text-black/90">
+              <Card className="p-6" dark={isDark}>
+                <SectionTitle icon={CheckCircle2} title={t[lang].about} dark={isDark} />
+                <p className={`text-base font-medium leading-relaxed ${isDark ? "text-zinc-300" : "text-black/90"}`}>
                   {data.summary[lang]}
                 </p>
 
@@ -435,7 +467,7 @@ export default function NeoBrutalLanding() {
                   {data.highlights.map((h) => (
                     <span
                       key={h}
-                      className="rounded-xl border-2 border-black bg-cyan-200 px-3 py-2 text-sm font-extrabold shadow-[3px_3px_0_0_#000]"
+                      className={`rounded-xl border-2 px-3 py-2 text-sm font-extrabold ${isDark ? "border-cyan-800 bg-cyan-600 text-zinc-200 shadow-[3px_3px_0_0_#164e63]" : "border-black bg-cyan-200 text-black shadow-[3px_3px_0_0_#000]"}`}
                     >
                       {h}
                     </span>
@@ -450,25 +482,26 @@ export default function NeoBrutalLanding() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="mt-6"
             >
-              <Card className="p-6">
+              <Card className="p-6" dark={isDark}>
                 <SectionTitle
                   icon={Server}
                   title={t[lang].experience}
                   subtitle={t[lang].experienceSubtitle}
+                  dark={isDark}
                 />
 
                 <div className="space-y-5">
                   {data.experience.map((xp) => (
                     <div
                       key={`${xp.company}-${xp.title.pt}`}
-                      className="rounded-2xl border-2 border-black bg-[#fff7e6] p-4 shadow-[4px_4px_0_0_#000]"
+                        className={`rounded-2xl border-2 p-4 ${isDark ? "border-zinc-600 bg-zinc-800 shadow-[4px_4px_0_0_#3f3f46]" : "border-black bg-[#fff7e6] shadow-[4px_4px_0_0_#000]"}`}
                     >
                       <div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
                         <div>
                           <div className="text-lg font-black">
                             {xp.title[lang]}
                           </div>
-                          <div className="text-sm font-bold text-black/80">
+                            <div className={`text-sm font-bold ${isDark ? "text-zinc-400" : "text-black/80"}`}>
                             {xp.company}
                           </div>
                         </div>
@@ -477,7 +510,7 @@ export default function NeoBrutalLanding() {
                         </div>
                       </div>
 
-                      <ul className="mt-3 list-disc space-y-2 pl-5 text-sm font-semibold">
+                        <ul className={`mt-3 list-disc space-y-2 pl-5 text-sm font-semibold ${isDark ? "text-zinc-300" : "text-black"}`}>
                         {xp.bullets[lang].map((b) => (
                           <li key={b}>{b}</li>
                         ))}
@@ -494,8 +527,8 @@ export default function NeoBrutalLanding() {
               transition={{ duration: 0.5, delay: 0.15 }}
               className="mt-6"
             >
-              <Card className="p-6">
-                <SectionTitle icon={Smartphone} title={t[lang].projects} />
+              <Card className="p-6" dark={isDark}>
+                <SectionTitle icon={Smartphone} title={t[lang].projects} dark={isDark} />
 
                 <div className="grid gap-4 md:grid-cols-2">
                   {data.projects.map((p) => (
@@ -504,12 +537,12 @@ export default function NeoBrutalLanding() {
                       href={p.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="group rounded-2xl border-2 border-black bg-white p-4 shadow-[4px_4px_0_0_#000] transition-transform active:translate-x-[1px] active:translate-y-[1px]"
+                      className={`group rounded-2xl border-2 p-4 transition-transform active:translate-x-[1px] active:translate-y-[1px] ${isDark ? "border-zinc-600 bg-zinc-800 shadow-[4px_4px_0_0_#3f3f46]" : "border-black bg-white shadow-[4px_4px_0_0_#000]"}`}
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div>
                           <div className="text-lg font-black">{p.name}</div>
-                          <div className="mt-1 text-sm font-semibold text-black/80">
+                          <div className={`mt-1 text-sm font-semibold ${isDark ? "text-zinc-400" : "text-black/80"}`}>
                             {p.tagline[lang]}
                           </div>
                         </div>
@@ -520,7 +553,7 @@ export default function NeoBrutalLanding() {
                         {p.stack.map((s) => (
                           <span
                             key={s}
-                            className="rounded-xl border-2 border-black bg-pink-200 px-2 py-1 text-xs font-extrabold shadow-[2px_2px_0_0_#000]"
+                            className={`rounded-xl border-2 px-2 py-1 text-xs font-extrabold ${isDark ? "border-pink-800 bg-pink-600 text-zinc-200 shadow-[2px_2px_0_0_#831843]" : "border-black bg-pink-200 text-black shadow-[2px_2px_0_0_#000]"}`}
                           >
                             {s}
                           </span>
@@ -539,33 +572,39 @@ export default function NeoBrutalLanding() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.08 }}
             >
-              <Card className="p-6">
-                <SectionTitle icon={Code2} title={t[lang].skills} />
+              <Card className="p-6" dark={isDark}>
+                <SectionTitle icon={Code2} title={t[lang].skills} dark={isDark} />
 
                 <div className="space-y-4">
                   <SkillGroup
-                    title={t[lang].skillGroups.frontend}
-                    items={data.skills.frontend}
-                  />
-                  <SkillGroup
                     title={t[lang].skillGroups.backend}
                     items={data.skills.backend}
+                    dark={isDark}
                   />
                   <SkillGroup
                     title={t[lang].skillGroups.mobile}
                     items={data.skills.mobile}
+                    dark={isDark}
                   />
                   <SkillGroup
                     title={t[lang].skillGroups.ecommerce}
                     items={data.skills.ecommerce}
+                    dark={isDark}
                   />
                   <SkillGroup
                     title={t[lang].skillGroups.testing}
                     items={data.skills.testing}
+                    dark={isDark}
                   />
                   <SkillGroup
                     title={t[lang].skillGroups.tools}
                     items={data.skills.tools}
+                    dark={isDark}
+                  />
+                  <SkillGroup
+                    title={t[lang].skillGroups.frontend}
+                    items={data.skills.frontend}
+                    dark={isDark}
                   />
                 </div>
               </Card>
@@ -577,15 +616,15 @@ export default function NeoBrutalLanding() {
               transition={{ duration: 0.5, delay: 0.12 }}
               className="mt-6"
             >
-              <Card className="p-6">
-                <SectionTitle icon={Sparkles} title={t[lang].contact} />
+              <Card className="p-6" dark={isDark}>
+                <SectionTitle icon={Sparkles} title={t[lang].contact} dark={isDark} />
 
                 <div className="grid gap-3">
                   <a
                     href={data.links.linkedin}
                     target="_blank"
                     rel="noreferrer"
-                    className="rounded-2xl border-2 border-black bg-yellow-300 px-4 py-3 text-center font-black shadow-[6px_6px_0_0_#000] transition-transform active:translate-x-[2px] active:translate-y-[2px]"
+                    className={`rounded-2xl border-2 px-4 py-3 text-center font-black transition-transform active:translate-x-[2px] active:translate-y-[2px] ${isDark ? "border-yellow-800 bg-yellow-600 text-black shadow-[6px_6px_0_0_#854d0e]" : "border-black bg-yellow-300 text-black shadow-[6px_6px_0_0_#000]"}`}
                   >
                     {t[lang].viewLinkedIn}
                   </a>
@@ -594,14 +633,14 @@ export default function NeoBrutalLanding() {
                     href={data.links.github}
                     target="_blank"
                     rel="noreferrer"
-                    className="rounded-2xl border-2 border-black bg-cyan-300 px-4 py-3 text-center font-black shadow-[6px_6px_0_0_#000] transition-transform active:translate-x-[2px] active:translate-y-[2px]"
+                    className={`rounded-2xl border-2 px-4 py-3 text-center font-black transition-transform active:translate-x-[2px] active:translate-y-[2px] ${isDark ? "border-cyan-800 bg-cyan-600 text-zinc-200 shadow-[6px_6px_0_0_#164e63]" : "border-black bg-cyan-300 text-black shadow-[6px_6px_0_0_#000]"}`}
                   >
                     {t[lang].viewGithub}
                   </a>
 
                   <a
                     href={`mailto:${data.email}`}
-                    className="rounded-2xl border-2 border-black bg-lime-300 px-4 py-3 text-center font-black shadow-[6px_6px_0_0_#000] transition-transform active:translate-x-[2px] active:translate-y-[2px]"
+                    className={`rounded-2xl border-2 px-4 py-3 text-center font-black transition-transform active:translate-x-[2px] active:translate-y-[2px] ${isDark ? "border-lime-800 bg-lime-600 text-black shadow-[6px_6px_0_0_#3f6212]" : "border-black bg-lime-300 text-black shadow-[6px_6px_0_0_#000]"}`}
                   >
                     {t[lang].sendEmail}
                   </a>
@@ -609,7 +648,7 @@ export default function NeoBrutalLanding() {
               </Card>
             </motion.div>
 
-            <footer className="mt-6 text-center text-xs font-bold text-black/70">
+            <footer className={`mt-6 text-center text-xs font-bold ${isDark ? "text-zinc-400" : "text-black/70"}`}>
               {t[lang].footer}
             </footer>
           </div>
